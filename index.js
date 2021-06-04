@@ -99,6 +99,17 @@ bot.on('message', message => {
                 )
             },
 
+            'Primary#getStatistic': () => {
+                message.channel.send(
+                    new Discord.MessageEmbed()
+                    .setTitle('getStatistic.php')
+                    .setColor('#00ff5e')
+                    .addField('Type', 'GET WITH QUERY')
+                    .addField('Endpoint', '/api/v1/getStatistic.php?statistic')
+                    .addField('Return', 'the statistic you requested')
+                )
+            },
+
             'Primary#getStoreItems': () => {
                 message.channel.send(
                     new Discord.MessageEmbed()
@@ -198,6 +209,17 @@ bot.on('message', message => {
                     .addField('Endpoint', '/api/v1/checkId.php')
                     .addField('Return', 'your id')
                     .addField('Parameters', '`password (string)`')
+                )
+            },
+
+            'Primary#apiSignUp': () => {
+                message.channel.send(
+                    new Discord.MessageEmbed()
+                    .setTitle('apiSignUp.php')
+                    .setColor('#00ff5e')
+                    .addField('Type', 'GET')
+                    .addField('Endpoint', '/api/v1/apiSignUp.php')
+                    .addField('Return', 'id|password')
                 )
             },
 
@@ -304,9 +326,16 @@ bot.on('message', message => {
     if (cmd == `${prefix}help`) {
         message.channel.send(
             new Discord.MessageEmbed()
-            .addField('Command List', '`help`\n`docs <type/doc>`\n`stats`\n`user <id>`\n`item <id>`\n`transaction <id>`')
+            .addField('Command List', '`help`\n`docs <type/doc>`\n`stats`\n`user <id>`\n`item <id>`\n`transaction <id>`\n`fetch <endpoint>`')
             .setColor('#4772ff')
             
         )
+    }
+
+    if (cmd == `${prefix}fetch`) {
+        fetch(`${endpoint}/${args[0]}`)
+        .then(res => res.text())
+        .then(body => message.channel.send(`\`\`\`html\n${body}\`\`\``))
+        .catch(e => message.channel.send('error'))
     }
 });
